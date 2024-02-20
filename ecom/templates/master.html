@@ -42,10 +42,11 @@
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram"></i></a></li>
 								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-github"></i></a></li>
+								{% comment %} <li><a href="#"><i class="fa fa-google-play"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li> {% endcomment %}
 							</ul>
 						</div>
 					</div>
@@ -118,8 +119,8 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{% url 'index' %}" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+								<li><a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home</a></li>
+								<li class="dropdown"><a href="#" class="{% if request.resolver_match.url_name == 'product' or request.resolver_match.url_name == 'cart_detail'  %}active{% endif %}">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
 										{% if request.user.is_authenticated %}
 										<li><a href=""> Hallo {{request.user.username}} !</a></li>
@@ -132,14 +133,14 @@
 										<li><a href="{% url 'cart_detail' %}">Cart</a></li> 
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#" class="{% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_single'  %}active{% endif %}">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="blog.html">Blog List</a></li>
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
                                 </li> 
 								{% comment %} <li><a href="404.html">404</a></li> {% endcomment %}
-								<li><a href="{% url 'contact' %}">Contact</a></li>
+								<li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
 							</ul>
 						</div>
 					</div>
