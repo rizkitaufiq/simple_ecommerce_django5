@@ -38,7 +38,7 @@
                         <div class="brands-name">
                             <ul class="nav nav-pills nav-stacked">
                                 {% for br in brand %}
-                                <li><a href="/product/?brand={{ br.id }}"> <span class="pull-right">(50)</span>{{ br.name }}</a></li>
+                                <li><a href="/product/?brand={{ br.id }}"> {{ br.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

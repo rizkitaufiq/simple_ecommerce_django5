@@ -187,6 +187,13 @@ def product_detail_page(request,id):
     }
     return render(request,'product_detail.html', context)
 
+def product_detail_index(request,id):
+    product = Product.objects.filter(id = id).first()
+    context = {
+        'product':product,
+    }
+    return render(request,'product_detail.html', context)
+
 def search_page(request):
     search  = request.GET['search']
     product = Product.objects.filter(name__icontains = search)

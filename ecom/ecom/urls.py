@@ -52,6 +52,8 @@ urlpatterns = [
     # product
     path('product/', views.product_page, name='product'),
     path('product/<str:id>', views.product_detail_page, name='product_detail'),
+    path('<str:id>', views.product_detail_index, name='product_detail_index'),
+    
 
     # search
     path('search/', views.search_page, name='search'),
