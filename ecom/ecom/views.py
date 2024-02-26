@@ -26,11 +26,16 @@ def Index(request):
         product     = Product.objects.filter(brand=brandID).order_by('-id')
     else:
         product     = Product.objects.all() 
+    
+    bestseller  = Product.objects.filter(status='Best Seller').order_by('-id')
+    recommended = Product.objects.filter(status='Recommended').order_by('-id')
 
     context = {
-        'category' : category,
-        'product'  : product,
-        'brand'    : brand,  
+        'category'   : category,
+        'product'    : product,
+        'brand'      : brand,
+        'bestseller' : bestseller,
+        'recommended': recommended,  
     }
     return render(request, 'index.html', context) 
 
@@ -153,7 +158,7 @@ def order_page(request):
     uid     = request.session.get('_auth_user_id')
     user    = User.objects.get(pk = uid)
 
-    order   = Order.objects.filter(user = user)
+    order   = Order.objects.filter(user = user).order_by('-date')
     context = {
         'order' : order,
     }
@@ -181,17 +186,40 @@ def product_page(request):
     return render(request, 'product.html', context)
 
 def product_detail_page(request,id):
+    category   = Category.objects.all()
+    brand      = Brand.objects.all()
+
     product = Product.objects.filter(id = id).first()
+   
     context = {
-        'product':product,
+        'category': category,
+        'brand'   : brand, 
+        'product' : product,
     }
     return render(request,'product_detail.html', context)
 
 def product_detail_index(request,id):
+    category   = Category.objects.all()
+    brand      = Brand.objects.all()
+    
     product = Product.objects.filter(id = id).first()
+  
     context = {
-        'product':product,
+        'category': category,
+        'brand'   : brand,
+        'product' : product,
     }
+
+    if request.method == "POST":
+        contact_review = Contact_us(
+            name    = request.POST.get('name'),
+            email   = request.POST.get('email'),
+            subject = request.POST.get('subject'),
+            product = request.POST.get('product'),
+            message = request.POST.get('message'),
+        )
+        contact_review.save()
+        
     return render(request,'product_detail.html', context)
 
 def search_page(request):

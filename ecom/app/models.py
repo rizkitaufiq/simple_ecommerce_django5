@@ -28,6 +28,7 @@ class Brand(models.Model):
     
 class Product(models.Model):
     availability = (('In Stock','In Stock'),('Out of Stock','Out of Stock'))
+    status       = (('Recommended','Recommended'),('Best Seller','Best Seller'))
 
     category     = models.ForeignKey(Category, on_delete = models.CASCADE, null = False, default = '')
     sub_Category = models.ForeignKey(Sub_Category, on_delete = models.CASCADE, null = False, default = '')
@@ -36,6 +37,7 @@ class Product(models.Model):
     name         = models.CharField(max_length = 100)
     price        = models.IntegerField()
     availability = models.CharField(choices = availability, null = True, max_length = 100)
+    status       = models.CharField(choices =  status, null = True, max_length = 100)
     date         = models.DateField(auto_now_add = True)
     
     def __str__(self):
@@ -72,6 +74,7 @@ class Contact_us(models.Model):
     name    = models.CharField(max_length=100)
     email   = models.EmailField(max_length=100)
     subject = models.CharField(max_length=100)
+    product = models.CharField(max_length = 1000, default='')
     message = models.TextField()
 
     def __str__(self):
