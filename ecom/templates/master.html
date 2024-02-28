@@ -33,18 +33,18 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +82 327 243 687</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> rizkitaufiq97@gmail.com</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-github"></i></a></li>
+								<li><a href="https://web.facebook.com/rizki.taufiq2"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://www.instagram.com/rizki_taufiqr/"><i class="fa fa-instagram"></i></a></li>
+								<li><a href="https://www.linkedin.com/in/rizki-ramadan-760084282/"><i class="fa fa-linkedin"></i></a></li>
+								<li><a href="https://github.com/rizkitaufiq?tab=repositories"><i class="fa fa-github"></i></a></li>
 								{% comment %} <li><a href="#"><i class="fa fa-google-play"></i></a></li>
 								<li><a href="#"><i class="fa fa-google-plus"></i></a></li> {% endcomment %}
 							</ul>
@@ -135,12 +135,12 @@
 										<li><a href="{% url 'cart_detail' %}">Cart</a></li> 
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#" class="{% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_single'  %}active{% endif %}">Blog<i class="fa fa-angle-down"></i></a>
+								{% comment %} <li class="dropdown"><a href="#" class="{% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_single'  %}active{% endif %}">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="blog.html">Blog List</a></li>
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
-                                </li> 
+                                </li>  {% endcomment %}
 								{% comment %} <li><a href="404.html">404</a></li> {% endcomment %}
 								<li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
 							</ul>
@@ -161,85 +161,6 @@
     {% block body  %} {% endblock  %}
 
     <footer id="footer"><!--Footer-->
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
-						</div>
-					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="/static/images/home/iframe1.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="/static/images/home/iframe2.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="/static/images/home/iframe3.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
-							</div>
-						</div>
-						
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="/static/images/home/iframe4.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="address">
-							<img src="/static/images/home/map.png" alt="" />
-							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		
 		<div class="footer-widget">
 			<div class="container">
@@ -248,27 +169,27 @@
 						<div class="single-widget">
 							<h2>Service</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Online Help</a></li>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order Status</a></li>
-								<li><a href="#">Change Location</a></li>
-								<li><a href="#">FAQ’s</a></li>
+								{% comment %} <li><a href="#">Online Help</a></li> {% endcomment %}
+								<li><a href="{% url 'product' %}">Product</a></li>
+								<li><a href="{% url 'contact' %}">Contact Us</a></li>
+								<li><a href="{% url 'order' %}">Order Status</a></li>
+								{% comment %} <li><a href="#">Change Location</a></li>
+								<li><a href="#">FAQ’s</a></li> {% endcomment %}
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Quock Shop</h2>
+							<h2>Contact</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Mens</a></li>
-								<li><a href="#">Womens</a></li>
-								<li><a href="#">Gift Cards</a></li>
-								<li><a href="#">Shoes</a></li>
+								<li><a href="https://www.facebook.com/rizki.taufiq2"><i class="fa fa-facebook"></i> rizkitaufiq</a></li>
+								<li><a href="https://www.instagram.com/rizki_taufiqr/"><i class="fa fa-instagram"></i>rizki_taufiqr</a></li>
+								<li><a href="https://www.linkedin.com/in/rizki-ramadan-760084282/"><i class="fa fa-linkedin"></i>rizki ramadan</a></li>
+								<li><a href="https://github.com/rizkitaufiq?tab=repositories"><i class="fa fa-github"></i>rizkitaufiq</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-2">
+					{% comment %} <div class="col-sm-2">
 						<div class="single-widget">
 							<h2>Policies</h2>
 							<ul class="nav nav-pills nav-stacked">
@@ -291,7 +212,7 @@
 								<li><a href="#">Copyright</a></li>
 							</ul>
 						</div>
-					</div>
+					</div> {% endcomment %}
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
 							<h2>About Shopper</h2>
@@ -310,8 +231,8 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+					<p class="pull-left">created by rizkitaufiq97@gmail.com</p>
+					{% comment %} <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p> {% endcomment %}
 				</div>
 			</div>
 		</div>
@@ -325,5 +246,6 @@
 	<script src="/static/js/price-range.js"></script>
     <script src="/static/js/jquery.prettyPhoto.js"></script>
     <script src="/static/js/main.js"></script>
+	
 </body>
 </html>
