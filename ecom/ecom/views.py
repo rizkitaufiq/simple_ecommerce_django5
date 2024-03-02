@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from app.models import Category, Product, Contact_us, Order, Brand
+from app.models import Category, Product, Contact_us, Order, Brand, Wishlist
 from django.contrib.auth.models import User
 
 from app.models import UserCreateForm
@@ -84,7 +84,7 @@ def item_clear(request, id):
 @login_required(login_url="login")
 def item_increment(request, id):
     cart = Cart(request)
-    product = Product.objects.get(id=id)
+    product = Product.objects.get(id=id) 
     cart.add(product=product)
     return redirect("cart_detail")
 
@@ -154,6 +154,7 @@ def checkout_page(request):
         
     return HttpResponse('this is checkout page')
 
+# order
 def order_page(request):
     uid     = request.session.get('_auth_user_id')
     user    = User.objects.get(pk = uid)
@@ -164,6 +165,7 @@ def order_page(request):
     }
     return render(request,'order.html', context)
 
+# product
 def product_page(request):
     category   = Category.objects.all()
     brand      = Brand.objects.all()
@@ -222,6 +224,49 @@ def product_detail_index(request,id):
         
     return render(request,'product_detail.html', context)
 
+# wishlist
+@login_required(login_url="login")
+def wishlist_add(request, id):
+
+    product = Product.objects.filter(id = id)
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    for i in product:
+
+        wishlist = Wishlist(
+            user        = user,
+            category    = i.category,
+            sub_category= i.sub_category,
+            brand       = i.brand,
+            image       = i.image,
+            name        = i.name,
+            price       = i.price,
+        )
+        wishlist.save()
+    
+    return redirect("index")
+
+@login_required(login_url="login")
+def wishlist_page(request):
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist= Wishlist.objects.filter(user = user)
+    context = {
+        'wishlist' : wishlist,
+    }
+    return render(request, 'wishlist.html', context)
+
+@login_required(login_url="login")
+def wishlistcart_add(request, id):
+    cart = Cart(request)
+    wishlist = Wishlist.objects.get(id=id)
+    cart.add(product=wishlist)
+    wishlist.delete()
+    return redirect("cart_detail")
+
+# search
 def search_page(request):
     search  = request.GET['search']
     product = Product.objects.filter(name__icontains = search)

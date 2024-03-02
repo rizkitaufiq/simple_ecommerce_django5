@@ -146,7 +146,7 @@
                             </div>
                             <div class="choose">
                                 <ul class="nav nav-pills nav-justified">
-                                    <li><a href="#"><i class="fa fa-plus-square"></i>Add to Wishlist</a></li>
+                                    <li><a href="{% url 'wishlist_add' prod.id %}"><i class="fa fa-plus-square"></i>Add to Wishlist</a></li>
                                     <li><a href="{{ prod.id }}"><i class="fa fa-eye"></i>View Product</a></li>
                                 </ul>
                             </div>

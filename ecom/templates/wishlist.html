@@ -1,0 +1,50 @@
+{% extends "master.html" %}
+{% block body %}
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li class="active">Your Order</li>
+            </ol>
+        </div>
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description">description</td>
+                        <td class="price">Brand</td>
+                        <td class="quantity">Price</td>
+                        <td class="total">Cart</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for i in wishlist  %}
+                    <tr>
+                        <td class="cart_product">
+                            <a href=""><img src="/{{ i.image }}" alt="" style="width:150px; height:150px;"></a>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a href="">{{ i.name }}</a></h4>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a href="">{{ i.brand }}</a></h4>
+                        </td>
+                        <td class="cart_price">
+                            <p>${{ i.price }}</p>
+                        </td>
+                        <td class="cart_add">
+                            <a href="{% url 'wishlistcart_add' i.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+{% endblock body %}

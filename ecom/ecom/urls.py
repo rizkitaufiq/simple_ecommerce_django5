@@ -54,6 +54,10 @@ urlpatterns = [
     path('product/<str:id>', views.product_detail_page, name='product_detail'),
     path('<str:id>', views.product_detail_index, name='product_detail_index'),
     
+    # wishlist
+    path('wishlist/add/<int:id>/', views.wishlist_add, name='wishlist_add'),
+    path('wishlist/', views.wishlist_page, name='wishlist'),
+    path('wishlistcart/add/<int:id>/', views.wishlistcart_add, name='wishlistcart_add'),
 
     # search
     path('search/', views.search_page, name='search'),

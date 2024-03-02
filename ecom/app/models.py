@@ -31,7 +31,7 @@ class Product(models.Model):
     status       = (('Recommended','Recommended'),('Best Seller','Best Seller'))
 
     category     = models.ForeignKey(Category, on_delete = models.CASCADE, null = False, default = '')
-    sub_Category = models.ForeignKey(Sub_Category, on_delete = models.CASCADE, null = False, default = '')
+    sub_category = models.ForeignKey(Sub_Category, on_delete = models.CASCADE, null = False, default = '')
     brand        = models.ForeignKey(Brand, on_delete = models.CASCADE, null = True)
     image        = models.ImageField(upload_to='ecommerce/ping')
     name         = models.CharField(max_length = 100)
@@ -94,3 +94,15 @@ class Order(models.Model):
 
     def __str__(self):
         return self.product
+
+class Wishlist(models.Model):
+    user         = models.ForeignKey(User, on_delete = models.CASCADE, null = False, default ='')
+    category     = models.ForeignKey(Category, on_delete = models.CASCADE, null = False, default = '')
+    sub_category = models.ForeignKey(Sub_Category, on_delete = models.CASCADE, null = False, default = '')
+    brand        = models.ForeignKey(Brand, on_delete = models.CASCADE, null = True)
+    image        = models.ImageField(upload_to='ecommerce/wishlist')
+    name         = models.CharField(max_length = 1000, default='')
+    price        = models.IntegerField()
+
+    def __str__(self):
+        return self.user
