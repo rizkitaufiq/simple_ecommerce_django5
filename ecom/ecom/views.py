@@ -11,7 +11,17 @@ from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
 def Master(request):
-    return render(request, 'master.html')
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist_count = Wishlist.objects.filter(user=user).count()
+
+
+    context = {
+        'wishlist_count' : wishlist_count,
+    }
+    
+    return render(request, 'master.html', context)
 
 def Index(request):
     category   = Category.objects.all()
@@ -19,6 +29,11 @@ def Index(request):
 
     categoryID = request.GET.get('category')
     brandID    = request.GET.get('brand')
+
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist_count = Wishlist.objects.filter(user=user).count()
 
     if categoryID:
         product     = Product.objects.filter(sub_Category=categoryID).order_by('-id')
@@ -31,14 +46,122 @@ def Index(request):
     recommended = Product.objects.filter(status='Recommended').order_by('-id')
 
     context = {
+        'wishlist_count' : wishlist_count, 
+
         'category'   : category,
         'product'    : product,
         'brand'      : brand,
         'bestseller' : bestseller,
-        'recommended': recommended,  
+        'recommended': recommended,
     }
     return render(request, 'index.html', context) 
 
+# Your Order
+def order_page(request):
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+    wishlist_count = Wishlist.objects.filter(user=user).count()
+
+    order   = Order.objects.filter(user = user).order_by('-date')
+
+    context = {
+        'order' : order,
+        'wishlist_count' : wishlist_count,
+    }
+    return render(request,'order.html', context)
+
+# Cart
+@login_required(login_url="login")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("index")
+
+@login_required(login_url="login")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+@login_required(login_url="login")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id) 
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+@login_required(login_url="login")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+@login_required(login_url="login")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+@login_required(login_url="login")
+def cart_detail(request):
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist_count = Wishlist.objects.filter(user=user).count()
+
+    context = {
+        'wishlist_count' : wishlist_count,
+    }
+    return render(request, 'cart/cart_detail.html',context)
+
+# Wishlist
+@login_required(login_url="login")
+def wishlist_add(request, id):
+
+    product = Product.objects.filter(id = id)
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    for i in product:
+
+        wishlist = Wishlist(
+            user        = user,
+            category    = i.category,
+            sub_category= i.sub_category,
+            brand       = i.brand,
+            image       = i.image,
+            name        = i.name,
+            price       = i.price,
+        )
+        wishlist.save()
+    
+    return redirect("index")
+
+@login_required(login_url="login")
+def wishlist_page(request):
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist= Wishlist.objects.filter(user = user)
+    wishlist_count= Wishlist.objects.filter(user = user).count()
+    context = {
+        'wishlist' : wishlist,
+        'wishlist_count' : wishlist_count,
+    }
+    return render(request, 'wishlist.html', context)
+
+@login_required(login_url="login")
+def wishlistcart_add(request, id):
+    cart = Cart(request)
+    wishlist = Wishlist.objects.get(id=id)
+    cart.add(product=wishlist)
+    wishlist.delete()
+    return redirect("cart_detail")
+
+# Auth
 def signup(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
@@ -63,54 +186,14 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-
-# addtocart
-@login_required(login_url="login")
-def cart_add(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.add(product=product)
-    return redirect("index")
-
-
-@login_required(login_url="login")
-def item_clear(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.remove(product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="login")
-def item_increment(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id) 
-    cart.add(product=product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="login")
-def item_decrement(request, id):
-    cart = Cart(request)
-    product = Product.objects.get(id=id)
-    cart.decrement(product=product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="login")
-def cart_clear(request):
-    cart = Cart(request)
-    cart.clear()
-    return redirect("cart_detail")
-
-
-@login_required(login_url="login")
-def cart_detail(request):
-    return render(request, 'cart/cart_detail.html')
-
-
 # contact
 def contact_page(request):
+
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist_count = Wishlist.objects.filter(user=user).count()
+
     if request.method == "POST":
         contact = Contact_us(
             name    = request.POST.get('name'),
@@ -119,8 +202,12 @@ def contact_page(request):
             message = request.POST.get('message'),
         )
         contact.save()
+    
+    context = {
+        'wishlist_count' : wishlist_count,
+    }
         
-    return render(request, 'contact.html')
+    return render(request, 'contact.html',context)
 
 # checkout
 def checkout_page(request):
@@ -154,17 +241,6 @@ def checkout_page(request):
         
     return HttpResponse('this is checkout page')
 
-# order
-def order_page(request):
-    uid     = request.session.get('_auth_user_id')
-    user    = User.objects.get(pk = uid)
-
-    order   = Order.objects.filter(user = user).order_by('-date')
-    context = {
-        'order' : order,
-    }
-    return render(request,'order.html', context)
-
 # product
 def product_page(request):
     category   = Category.objects.all()
@@ -172,6 +248,11 @@ def product_page(request):
 
     categoryID = request.GET.get('category')
     brandID    = request.GET.get('brand')
+
+    uid     = request.session.get('_auth_user_id')
+    user    = User.objects.get(pk = uid)
+
+    wishlist_count = Wishlist.objects.filter(user=user).count()
 
     if categoryID:
         product     = Product.objects.filter(sub_Category=categoryID).order_by('-id')
@@ -181,6 +262,8 @@ def product_page(request):
         product     = Product.objects.all() 
 
     context = {
+        'wishlist_count' : wishlist_count, 
+
         'category': category,
         'product' : product,
         'brand'   : brand,  
@@ -223,48 +306,6 @@ def product_detail_index(request,id):
         contact_review.save()
         
     return render(request,'product_detail.html', context)
-
-# wishlist
-@login_required(login_url="login")
-def wishlist_add(request, id):
-
-    product = Product.objects.filter(id = id)
-    uid     = request.session.get('_auth_user_id')
-    user    = User.objects.get(pk = uid)
-
-    for i in product:
-
-        wishlist = Wishlist(
-            user        = user,
-            category    = i.category,
-            sub_category= i.sub_category,
-            brand       = i.brand,
-            image       = i.image,
-            name        = i.name,
-            price       = i.price,
-        )
-        wishlist.save()
-    
-    return redirect("index")
-
-@login_required(login_url="login")
-def wishlist_page(request):
-    uid     = request.session.get('_auth_user_id')
-    user    = User.objects.get(pk = uid)
-
-    wishlist= Wishlist.objects.filter(user = user)
-    context = {
-        'wishlist' : wishlist,
-    }
-    return render(request, 'wishlist.html', context)
-
-@login_required(login_url="login")
-def wishlistcart_add(request, id):
-    cart = Cart(request)
-    wishlist = Wishlist.objects.get(id=id)
-    cart.add(product=wishlist)
-    wishlist.delete()
-    return redirect("cart_detail")
 
 # search
 def search_page(request):

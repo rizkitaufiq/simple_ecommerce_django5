@@ -93,7 +93,13 @@
 								<li><a href="{% url 'order' %}"><i class="fa fa-check-square-o"></i> Your Order</a></li>
 								{% comment %} <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> {% endcomment %}
 								<li><a href="{% url 'cart_detail' %}"><i class="fa fa-shopping-cart"></i>Cart <span class="badge badge-secondary">{{ request.session.cart|length }}</span></a></li>
-								<li><a href="{% url 'wishlist' %}"><i class="fa fa-star"></i> Wishlist</a></li>
+								
+								{% if request.user.is_authenticated %}
+								<li><a href="{% url 'wishlist' %}"><i class="fa fa-star"></i> Wishlist <span class="badge badge-secondary">{{ wishlist_count }}</span></a></li>
+								{% else %}
+								<li><a href="{% url 'wishlist' %}"><i class="fa fa-star"></i> Wishlist <span class="badge badge-secondary">0</span></a></li>
+								{% endif %}
+
 								{% if request.user.is_authenticated %}
 								{% comment %} <li><a href="#"><i class="fa fa-user"></i> {{ request.user.username }}</a></li> {% endcomment %}
 								<li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
@@ -213,7 +219,7 @@
 							</ul>
 						</div>
 					</div> {% endcomment %}
-					<div class="col-sm-3 col-sm-offset-1">
+					{% comment %} <div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
 							<h2>About Shopper</h2>
 							<form action="#" class="searchform">
@@ -222,7 +228,7 @@
 								<p>Get the most recent updates from <br />our site and be updated your self...</p>
 							</form>
 						</div>
-					</div>
+					</div> {% endcomment %}
 					
 				</div>
 			</div>
